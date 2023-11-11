@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <form id="userInputForm">
+            <label for="name">Name: </label>
+            <input type="text" id="name">
+            <label for="email">Email: </label>
+            <input type="text" id="email">
+            <label for="tel">Phone No: </label>
+            <input type="tel" id="phoneNo">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <ul id="ulId">
+        <!-- Existing list item will be replaced by new entries -->
+    </ul>
+    <script>
+        const formInput = document.getElementById("userInputForm");
+        const ulList = document.getElementById("ulId");
+
+        formInput.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            var nameIn = document.getElementById('name').value;
+            var emailIn = document.getElementById('email').value;
+            var phoneIn = document.getElementById('phoneNo').value;
+
+            const data = {
+                "Name": nameIn,
+                "Email": emailIn,
+                "PhoneNumber": phoneIn
+            }
+
+            const dataStore = JSON.stringify(data);
+            console.log(dataStore);
+            localStorage.setItem("name", dataStore);
+
+            // Create a new list item and append it to the unordered list
+            const liItem = document.createElement("li");
+            liItem.textContent = `Name: ${data.Name}, Email: ${data.Email}, Phone No: ${data.PhoneNumber}`;
+            ulList.appendChild(liItem);
+
+            formInput.reset();
+        });
+
+        // Add a button click event listener to clear local storage
+        document.getElementById("clearStorage").addEventListener("click", () => {
+            localStorage.removeItem("name");
+            ulList.innerHTML = ""; // Clear the displayed list
+        });
+    </script>
+
+    <!-- Add a button to clear local storage -->
+    <button id="clearStorage">Clear Local Storage</button>
+</body>
+
+</html>
